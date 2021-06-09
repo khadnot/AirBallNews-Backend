@@ -33,7 +33,7 @@ class User {
 
             const u = await col.insertOne(userDoc);
 
-            const newUser = await col.findOne();
+            const newUser = await col.findOne({username: username}); 
 
             return newUser;
 
