@@ -6,6 +6,39 @@ const dbName = 'users';
 
 class User {
 
+    /** Authenticate user with username and password 
+     * 
+     * Returns { firstName, lastName, username, email}
+     * 
+     * Throws error is user not found or wrong password
+     * */ 
+
+    static async authenticate({ username, password }) {
+        try {
+            await client.connect();
+            console.log('Connected to MongoDB server');
+            const db = client.db(dbName);
+            const col = db.collection('userInfo');
+
+            // try and find user
+            const user = col.find({ username: username });
+
+            if (user) {
+                // compare hashed password to a new hash from password
+                const isValid = await bcrypt.compare(password, user.password);
+                if (isValid === true) {
+                    delete user.password;
+                    return user;
+                }
+            }
+            throw new Error('Invalid username/password');
+
+        } catch(err) {
+            console.log(err.message);
+        }
+    }
+
+
     // Register new user and return user info
 
     static async register({ firstName, lastName, username, password, email }) {
@@ -17,7 +50,7 @@ class User {
 
             const duplicateUserCheck = await col.find({ username });
 
-            if (duplicateUserCheck[0]) {
+            if (duplicateUserCheck) {
                 throw new Error(`Duplicate username found: ${username}`);
             }
 
@@ -33,7 +66,7 @@ class User {
 
             const u = await col.insertOne(userDoc);
 
-            const newUser = await col.findOne({username: username}); 
+            const newUser = await col.findOne({ username: username }); 
 
             return newUser;
 
