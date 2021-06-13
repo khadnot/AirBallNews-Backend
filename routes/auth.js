@@ -12,9 +12,13 @@ import createToken from "../tokens.js";
 router.post('/token', async function (req, res, next) {
     try {
         const { username, password } = req.body;
-        const user = await User.authenticate(username, password);
-        const token = createToken(user);
-        return res.json({ token });
+        const user = await User.authenticate({ username, password });
+        if (user) {
+            const token = await createToken(user);
+            return res.json({ token });
+        } else {
+            return res.json('Invalid username/passowrd');
+        }
     } catch(err) {
         return next(err);
     }

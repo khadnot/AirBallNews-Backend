@@ -16,19 +16,19 @@ class User {
     static async authenticate({ username, password }) {
         try {
             await client.connect();
-            console.log('Connected to MongoDB server');
+            console.log('Connected to MongoDB server - #1');
             const db = client.db(dbName);
             const col = db.collection('userInfo');
 
             // try and find user
-            const user = col.find({ username: username });
+            const user = await col.findOne({ username: username });
 
             if (user) {
                 // compare hashed password to a new hash from password
                 const isValid = await bcrypt.compare(password, user.password);
                 if (isValid === true) {
                     delete user.password;
-                    return user;
+                    return username;
                 }
             }
             throw new Error('Invalid username/password');

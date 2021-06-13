@@ -3,12 +3,9 @@ import { SECRET_KEY } from './config.js';
 
 // return signed JWT from user data
 
-async function createToken(user) {
-    let payload = {
-        username: user.username,
-    };
+async function createToken(username) {
 
-    return jwt.sign(payload, SECRET_KEY);
+    return jwt.sign({ 'username': username}, SECRET_KEY);
     
 }
 
