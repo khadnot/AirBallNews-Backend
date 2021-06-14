@@ -48,7 +48,8 @@ class User {
             const db = client.db(dbName);
             const col = db.collection('userInfo');
 
-            const duplicateUserCheck = await col.find({ username });
+            // check for duplicate user
+            const duplicateUserCheck = await col.findOne({ username: username });
 
             if (duplicateUserCheck) {
                 throw new Error(`Duplicate username found: ${username}`);
@@ -64,11 +65,11 @@ class User {
                 "email": email
             }
 
-            const u = await col.insertOne(userDoc);
+            await col.insertOne(userDoc);
 
             const newUser = await col.findOne({ username: username }); 
 
-            return newUser;
+            return newUser.username; // return new user's username for token
 
         } catch(err) {
             console.log(err.message);
