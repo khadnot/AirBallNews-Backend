@@ -20,7 +20,7 @@ app.use(morgan("tiny"));
 app.use(authenticateJWT);
 
 app.use('/auth', authRoutes);
-app.use('/login', authRoutes); // just for testing
+//app.use('/login', authRoutes); // just for testing
 //app.use('/users', usersRoutes);
 //app.use('/teams', teamsRoutes);
 
