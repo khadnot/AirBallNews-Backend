@@ -21,7 +21,7 @@ class User {
             const col = db.collection('userInfo');
 
             // try and find user
-            const user = await col.findOne({ username: username });
+            const user = await col.findOne({ username : username });
 
             if (user) {
                 // compare hashed password to a new hash from password
@@ -49,7 +49,7 @@ class User {
             const col = db.collection('userInfo');
 
             // check for duplicate user
-            const duplicateUserCheck = await col.findOne({ username: username });
+            const duplicateUserCheck = await col.findOne({ username : username });
 
             if (duplicateUserCheck) {
                 throw new Error(`Duplicate username found: ${username}`);
@@ -67,13 +67,27 @@ class User {
 
             await col.insertOne(userDoc);
 
-            const newUser = await col.findOne({ username: username }); 
+            const newUser = await col.findOne({ username : username }); 
 
             return newUser.username; // return new user's username for token
 
         } catch(err) {
             console.log(err.message);
         }
+    }
+
+    // Given a username, returns data about user
+    static async get(username) {
+        await client.connect();
+        console.log('Connected to MongoDB server');
+        const db = client.db(dbName);
+        const col = db.collection('userInfo');
+        const userRes = await col.findOne({ username : username })
+        const user = userRes.username;
+
+        if (!user) throw new Error(`No user: ${username}`);
+
+        return user;
     }
 }
 

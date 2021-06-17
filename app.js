@@ -7,8 +7,8 @@ import cors from 'cors';
 
 import { authenticateJWT } from './middleware/auth.js';
 import authRoutes from './routes/auth.js';
-//import usersRoutes from './routes/users.js';
-//import teamsRoutes from './routes/teams.js';
+import userRoutes from './routes/users.js';
+import teamRoutes from './routes/teams.js';
 
 import morgan from 'morgan';
 
@@ -20,9 +20,8 @@ app.use(morgan("tiny"));
 app.use(authenticateJWT);
 
 app.use('/auth', authRoutes);
-//app.use('/login', authRoutes); // just for testing
-//app.use('/users', usersRoutes);
-//app.use('/teams', teamsRoutes);
+app.use('/users', userRoutes);
+app.use('/teams', teamRoutes);
 
 // Handle 404 errors
 app.use(function (req, res, next) {
