@@ -9,7 +9,7 @@ const router = new express.Router();
 
 router.get('/:team', async function (req, res, next) {
     try {
-        const team = await Team.getTeam(req.params.team);
+        let team = await Team.getTeam(req.params.team);
         return res.json({ team });
     } catch(err) {
         return next(err);

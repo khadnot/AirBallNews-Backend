@@ -8,14 +8,18 @@ class Team {
     static async getTeam(team) {
         await client.connect();
         console.log('Connected to MongoDB server');
-        const db = client.db(dbName);
+        const db = await client.db(dbName);
         // how to get collection by team!?!?!
-        const col = db.collection(team); // collection of team code ex. BKN, BOS, LAL, etc
-        const nameRes = await col.distinct( 'playerId' ); // all the data for starting five players
+        const col = await db.collection(team); // collection of team code ex. BKN, BOS, LAL, etc.
 
-        if (!nameRes) throw new Error('Players not found');
+        let res = await col.find().toArray();
+        
+        let players = [];
+        for (let player of res) {
+            players.push(player);
+        }
 
-        return nameRes;
+        return players;
     }
 }
 
