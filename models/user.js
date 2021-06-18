@@ -83,7 +83,30 @@ class User {
         const db = client.db(dbName);
         const col = db.collection('userInfo');
         const userRes = await col.findOne({ username : username })
-        const user = userRes.username;
+        const user = userRes;
+
+        if (!user) throw new Error(`No user: ${username}`);
+
+        return user;
+    }
+
+    static async update(username, data) {
+        await client.connect();
+        console.log('Connected to MongoDB server');
+        const db = client.db(dbName);
+        const col = db.collection('userInfo');
+
+        if (data.password) {
+            data.password = await bcrypt.hash(data.password, BCRYPT_WORK_FACTOR);
+        }
+
+        await col.update({ username: username}, 
+            {$set: { 'firstName': data.firstName, 
+                        'lastName': data.lastName,
+                            'email': data.email}});
+
+        const userRes = await col.findOne({ username : username });
+        const user = userRes;
 
         if (!user) throw new Error(`No user: ${username}`);
 
