@@ -91,14 +91,14 @@ class User {
     }
 
     static async update(username, data) {
+        if (data.password) {
+            data.password = await bcrypt.hash(data.password, BCRYPT_WORK_FACTOR);
+        }
+
         await client.connect();
         console.log('Connected to MongoDB server');
         const db = client.db(dbName);
         const col = db.collection('userInfo');
-
-        if (data.password) {
-            data.password = await bcrypt.hash(data.password, BCRYPT_WORK_FACTOR);
-        }
 
         await col.update({ username: username}, 
             {$set: { 'firstName': data.firstName, 
@@ -110,6 +110,7 @@ class User {
 
         if (!user) throw new Error(`No user: ${username}`);
 
+        delete user.password;
         return user;
     }
 }
