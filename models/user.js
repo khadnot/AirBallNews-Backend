@@ -15,8 +15,6 @@ class User {
 
     static async authenticate({ username, password }) {
         try {
-            await client.connect();
-            console.log('Connected to MongoDB server - #1');
             const db = client.db(dbName);
             const col = db.collection('userInfo');
 
@@ -43,8 +41,6 @@ class User {
 
     static async register({ firstName, lastName, username, password, email }) {
         try {
-            await client.connect();
-            console.log('Connected to MongoDB server');
             const db = client.db(dbName);
             const col = db.collection('userInfo');
 
@@ -78,8 +74,6 @@ class User {
 
     // Given a username, returns data about user
     static async get(username) {
-        await client.connect();
-        console.log('Connected to MongoDB server');
         const db = client.db(dbName);
         const col = db.collection('userInfo');
         const userRes = await col.findOne({ username : username })
@@ -95,8 +89,6 @@ class User {
             data.password = await bcrypt.hash(data.password, BCRYPT_WORK_FACTOR);
         }
 
-        await client.connect();
-        console.log('Connected to MongoDB server');
         const db = client.db(dbName);
         const col = db.collection('userInfo');
 

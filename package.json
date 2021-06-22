@@ -5,7 +5,14 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "test": "jest -i"
+  },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "config.js"
+    ]
   },
   "keywords": [],
   "author": "",
@@ -23,5 +30,8 @@
     "morgan": "^1.10.0",
     "nba-api-client": "^1.1.1",
     "nodemon": "^2.0.7"
+  },
+  "devDependencies": {
+    "supertest": "^6.1.3"
   }
 }
