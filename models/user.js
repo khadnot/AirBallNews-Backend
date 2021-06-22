@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import { client } from '../db.js';
 import { BCRYPT_WORK_FACTOR } from '../config.js';
 
+
 const dbName = 'users';
 
 class User {
@@ -14,26 +15,23 @@ class User {
      * */ 
 
     static async authenticate({ username, password }) {
-        try {
-            const db = client.db(dbName);
-            const col = db.collection('userInfo');
+        const db = client.db(dbName);
+        const col = db.collection('userInfo');
 
-            // try and find user
-            const user = await col.findOne({ username : username });
+        // try and find user
+        const user = await col.findOne({ username : username });
 
-            if (user) {
-                // compare hashed password to a new hash from password
-                const isValid = await bcrypt.compare(password, user.password);
-                if (isValid === true) {
-                    delete user.password;
-                    return username;
-                }
+        if (user) {
+            // compare hashed password to a new hash from password
+            const isValid = await bcrypt.compare(password, user.password);
+            if (isValid) {
+                delete user.password;
+                return username;
             }
-            throw new Error('Invalid username/password');
-
-        } catch(err) {
-            console.log(err.message);
         }
+
+        JSON.stringify({ "error": "Invalid Username/Password"})
+        
     }
 
 
