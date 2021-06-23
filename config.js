@@ -6,5 +6,4 @@ export const PORT = +process.env.PORT || 3001;
 
 export const BCRYPT_WORK_FACTOR = 12;
 
-export const DB_URI =
-    'mongodb+srv://kenbo:LMPBizkit88@capstone2.lkazn.mongodb.net/users?retryWrites=true&w=majority';
+export const DB_URI = process.env.DB_URI
