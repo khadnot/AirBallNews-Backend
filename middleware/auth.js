@@ -8,14 +8,14 @@
  */ 
 
 import jwt from 'jsonwebtoken';
-import { SECRET_KEY } from '../config.js';
+import 'dotenv/config.js';
 
 export function authenticateJWT(req, res, next) {
     try {
         const authHeader = req.headers && req.headers.authorization;
         if (authHeader) {
             const token = authHeader.replace(/^[Bb]earer /, "").trim();
-            res.locals.user = jwt.verify(token, SECRET_KEY);
+            res.locals.user = jwt.verify(token, process.env.SECRET_KEY);
         }
         return next();
     } catch (err) {

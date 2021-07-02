@@ -1,5 +1,6 @@
 import axios from 'axios';
 import 'dotenv/config.js';
+const { NBA_API_KEY } = process.env;
 
 class Game {
     
@@ -11,7 +12,7 @@ class Game {
             method: 'GET',
             url: `https://api-nba-v1.p.rapidapi.com/games/teamId/${teamId}`,
             headers: {
-              'x-rapidapi-key': process.env.NBA_API_KEY,
+              'x-rapidapi-key': NBA_API_KEY,
               'x-rapidapi-host': 'api-nba-v1.p.rapidapi.com'
             }
         };

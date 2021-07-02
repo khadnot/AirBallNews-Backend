@@ -9,6 +9,7 @@ import { authenticateJWT } from './middleware/auth.js';
 import authRoutes from './routes/auth.js';
 import userRoutes from './routes/users.js';
 import teamRoutes from './routes/teams.js';
+import gameRoutes from './routes/games.js';
 
 import morgan from 'morgan';
 
@@ -22,6 +23,7 @@ app.use(authenticateJWT);
 app.use('/auth', authRoutes);
 app.use('/users', userRoutes);
 app.use('/teams', teamRoutes);
+app.use('/games', gameRoutes);
 
 // Handle 404 errors
 app.use(function (req, res, next) {
