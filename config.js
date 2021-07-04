@@ -4,7 +4,7 @@ import 'dotenv/config.js';
 
 export const SECRET_KEY = process.env.SECRET_KEY;
 
-export const PORT = +process.env.PORT || 3001;
+export const PORT = process.env.PORT || 3001;
 
 export const BCRYPT_WORK_FACTOR = 12;
 
