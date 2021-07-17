@@ -5,6 +5,8 @@
 import express from 'express';
 import cors from 'cors';
 
+import { NotFoundError } from './expressError.js';
+
 import { authenticateJWT } from './middleware/auth.js';
 import authRoutes from './routes/auth.js';
 import userRoutes from './routes/users.js';
@@ -27,7 +29,7 @@ app.use('/games', gameRoutes);
 
 // Handle 404 errors
 app.use(function (req, res, next) {
-    return next(new Error('Page Not Found'))
+    return next(new NotFoundError());
 });
 
 // Generic error handler
