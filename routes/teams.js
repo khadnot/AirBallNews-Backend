@@ -8,7 +8,12 @@ import express from 'express';
 const router = new express.Router();
 
 router.get('/', async function (req, res, next) {
-    return res.json('Air Ball News Home');
+    try {
+        let teams = await Team.allTeams();
+        return res.json({ teams });
+    } catch(err) {
+        return next(err);
+    }
 })
 
 router.get('/:team', async function (req, res, next) {

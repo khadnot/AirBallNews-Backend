@@ -4,6 +4,21 @@ const dbName = 'teams';
 
 class Team {
 
+    // get all NBA teams
+    static async allTeams() {
+        const db = await client.db(dbName);
+        const col = await db.listCollections();
+        
+        let res = await col.toArray();
+        let teams = [];
+
+        for (let team of res) {
+            teams.push(team.name)
+        }
+        
+        return teams.sort();
+    }
+
     // get players info from team
     static async getTeam(team) {
         const db = await client.db(dbName);
