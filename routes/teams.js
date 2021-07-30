@@ -18,7 +18,7 @@ router.get('/', async function (req, res, next) {
 
 router.get('/:team', async function (req, res, next) {
     try {
-        let team = await Team.getTeam(req.params.team);
+        let team = await Team.getTeamPlayers(req.params.team);
         return res.json({ team });
     } catch(err) {
         return next(err);

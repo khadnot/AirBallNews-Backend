@@ -1,4 +1,5 @@
 import { client } from '../db.js';
+import axios from 'axios';
 
 const dbName = 'teams';
 
@@ -20,7 +21,7 @@ class Team {
     }
 
     // get players info from team
-    static async getTeam(team) {
+    static async getTeamPlayers(team) {
         const db = await client.db(dbName);
         const col = await db.collection(team); // collection of team code ex. BKN, BOS, LAL, etc.
 

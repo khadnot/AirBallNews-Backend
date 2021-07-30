@@ -12,6 +12,7 @@ import authRoutes from './routes/auth.js';
 import userRoutes from './routes/users.js';
 import teamRoutes from './routes/teams.js';
 import gameRoutes from './routes/games.js';
+import newsRoutes from './routes/news.js';
 
 import morgan from 'morgan';
 
@@ -26,6 +27,7 @@ app.use('/auth', authRoutes);
 app.use('/users', userRoutes);
 app.use('/teams', teamRoutes);
 app.use('/games', gameRoutes);
+app.use('/news', newsRoutes);
 
 // Handle 404 errors
 app.use(function (req, res, next) {
