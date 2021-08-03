@@ -1,5 +1,7 @@
 import { client } from '../db.js';
 import axios from 'axios';
+import 'dotenv/config.js';
+const { NBA_API_KEY } = process.env;
 
 const dbName = 'teams';
 
@@ -33,6 +35,26 @@ class Team {
         }
 
         return players;
+    }
+
+    // get team logo from NBA API
+    static async getTeamLogos(teamId) {
+        let teamLogo = "";
+        
+        const options = await {
+            method: 'GET',
+            url: `https://api-nba-v1.p.rapidapi.com/teams/teamId/${teamId}`,
+            headers: {
+              'x-rapidapi-key': NBA_API_KEY,
+              'x-rapidapi-host': 'api-nba-v1.p.rapidapi.com'
+            }
+        };
+
+        await axios.request(options).then(res => {
+            teamLogo = res.data.api.teams[0].logo;
+        });
+
+        return teamLogo;
     }
 }
 

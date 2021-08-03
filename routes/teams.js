@@ -25,5 +25,14 @@ router.get('/:team', async function (req, res, next) {
     }
 })
 
+router.get('/:team/:teamId', async function (req, res, next) {
+    try {
+        let teamLogo = await Team.getTeamLogos(req.params.teamId);
+        return res.json({ teamLogo });
+    } catch(err) {
+        return next(err);
+    }
+})
+
 export default router;
 
